@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">
+        SpotNews
+    </string>
+
+    <string name="article_link_button">
+        Click to View Article
+    </string>
+</resources>

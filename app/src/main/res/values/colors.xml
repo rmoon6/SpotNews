@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--COLORS FOR ANDROID-->
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--COLORS FOR THE RECYCLER VIEW SOURCES-->
+    <color name="sourceListFirstHalf">#F7EAEA</color>
+    <color name="sourcesListSecondHalf">#D0CECE</color>
+
+    <!--COLORS FOR THE ROUNDED CORNERS (MAY NOT BE USED)-->
+    <color name="color_white">#ffffff</color>
+    <color name="grey_ask">#C0C4C0</color>
+</resources>
