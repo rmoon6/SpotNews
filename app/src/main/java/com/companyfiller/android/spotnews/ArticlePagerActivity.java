@@ -18,6 +18,13 @@ import java.util.List;
  *
  * This will run a background thread to get the data for the articles
  * and the use the output list to populate the pager
+ *
+ * So I want the pager to hold pictures that it downloads, and then only re-downlaod the image
+ * if it hasn't downloaded it yet so far
+ *
+ * I'm thinking that I will simply store a hashmap of bitmap images in the articles holder singleton
+ *
+ * I think it works; but the way that I've implemented it may have been a little clumsy
  */
 
 public class ArticlePagerActivity extends FragmentActivity {
@@ -63,6 +70,7 @@ public class ArticlePagerActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ArticlesHolder.getInstance().clearBitmaps();
         Log.i(TAG, "The onDestroy() method was called");
     }
 

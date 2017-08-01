@@ -41,6 +41,7 @@ public class ArticleFragment extends Fragment {
 
     private TextView sourceTitleTextView;
     private TextView titleTextView;
+    private TextView authorTextView;
     private TextView descriptionTextView;
     private ImageView articleImageView;
     private Button linkButton;
@@ -73,7 +74,9 @@ public class ArticleFragment extends Fragment {
 
         usesColor1Flag = getArguments().getBoolean(COLOR_SWITCH_TAG);
 
-        fetchPhotoTask = new FetchPhotoTask().execute();
+        if (ArticlesHolder.getInstance().getBitmapFromtitle(newsArticle.getTitle()) == null) {
+            fetchPhotoTask = new FetchPhotoTask().execute();
+        }
 
         Log.i(TAG, "The onCreateMethod was called");
     }
@@ -89,6 +92,9 @@ public class ArticleFragment extends Fragment {
         titleTextView = v.findViewById(R.id.article_title_text_view);
         titleTextView.setText(newsArticle.getTitle());
 
+        authorTextView = v.findViewById(R.id.article_author_text_view);
+        authorTextView.setText("Author: " + newsArticle.getAuthor());
+
         if (newsArticle.getDescription() != null &&
                 !newsArticle.getDescription().equalsIgnoreCase("null")) {
             Log.i(TAG, "Here is the description: " + newsArticle.getDescription());
@@ -97,6 +103,12 @@ public class ArticleFragment extends Fragment {
         }
 
         articleImageView = v.findViewById(R.id.article_image);
+        if (ArticlesHolder.getInstance().getBitmapFromtitle(newsArticle.getTitle()) != null) {
+            postArticlePhoto(
+                    ArticlesHolder
+                    .getInstance()
+                    .getBitmapFromtitle(newsArticle.getTitle()));
+        }
 
         linkButton = v.findViewById(R.id.article_viewer_button);
         linkButton.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +147,10 @@ public class ArticleFragment extends Fragment {
         Log.i(TAG, "The onDestroy method was called");
     }
 
+    private void postArticlePhoto(Bitmap photo) {
+        articleImageView.setImageBitmap(photo);
+    }
+
     public class FetchPhotoTask extends AsyncTask<Void, Void, Bitmap> {
 
         @Override
@@ -146,7 +162,8 @@ public class ArticleFragment extends Fragment {
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
 
-            articleImageView.setImageBitmap(bitmap);
+            postArticlePhoto(bitmap);
+            ArticlesHolder.getInstance().addBitmap(newsArticle.getTitle(), bitmap);
         }
     }
 }

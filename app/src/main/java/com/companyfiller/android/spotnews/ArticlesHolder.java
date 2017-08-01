@@ -1,5 +1,9 @@
 package com.companyfiller.android.spotnews;
 
+import android.graphics.Bitmap;
+import android.util.Log;
+
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -9,13 +13,21 @@ import java.util.List;
  *
  * Purpose is to have it so that there will be only one set of articles out there at once
  * and so that it can be accessible from anywhere
+ *
+ * Just added the bitmap hash map so that the images can simply be held after download
+ * within the scope of the pager activity
+ *
+ * This way, they can be simply pulled from here instead of being re-downloaded
  */
 
 public class ArticlesHolder {
 
-    public static ArticlesHolder articlesHolder;
+    private static final String TAG = "ArticlesHolder";
 
-    public List<NewsArticle> articlesList;
+    private static ArticlesHolder articlesHolder;
+
+    private List<NewsArticle> articlesList;
+    private HashMap<String, Bitmap> bitmapHashMap;
 
     public static ArticlesHolder getInstance() {
         if (articlesHolder == null) {
@@ -58,6 +70,32 @@ public class ArticlesHolder {
 
         return articlesList.get(0);
 
+    }
+
+    public Bitmap getBitmapFromtitle(String title) {
+
+        if (bitmapHashMap == null) {
+            return null;
+        }
+
+        if (bitmapHashMap.get(title) == null) {
+            return null;
+        }
+
+        return bitmapHashMap.get(title);
+    }
+
+    public void addBitmap(String title, Bitmap bitmap) {
+        if (bitmapHashMap == null) {
+            bitmapHashMap = new HashMap<>();
+        }
+
+        bitmapHashMap.put(title, bitmap);
+    }
+
+    public void clearBitmaps() {
+        bitmapHashMap = null;
+        Log.i(TAG, "The bitmap map was cleared");
     }
 }
 
